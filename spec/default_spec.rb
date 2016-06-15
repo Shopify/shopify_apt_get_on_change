@@ -2,14 +2,19 @@ require 'chefspec'
 require 'chefspec/berkshelf'
 
 describe 'shopify_apt_get_on_change_test::default' do
-  let(:chef_run) { ChefSpec::SoloRunner.new(step_into: ['shopify_apt_get_on_change']).converge(described_recipe) }
+  let(:chef_run) do
+    ChefSpec::SoloRunner.new(step_into: ['shopify_apt_get_on_change'])
+                        .converge(described_recipe)
+  end
 
   it 'should update shopify_apt_get_on_change' do
-    expect(chef_run).to update_shopify_apt_get_on_change('/etc/example.app/version')
+    expect(chef_run).to\
+      update_shopify_apt_get_on_change('/etc/example.app/version')
   end
 
   it 'should create version file with right content' do
-    expect(chef_run).to create_file('/etc/example.app/version').with_content('1.2')
+    expect(chef_run).to\
+      create_file('/etc/example.app/version').with_content('1.2')
   end
 
   it 'should create file resource that executes apt get update on change' do
