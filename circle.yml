@@ -2,6 +2,10 @@ machine:
   ruby:
     version: 2.1.8
 
+dependencies:
+  pre:
+    - bundle install --without development
+
 test:
   override:
     - bundle exec rake style
