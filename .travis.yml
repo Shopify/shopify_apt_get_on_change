@@ -1,0 +1,6 @@
+language: ruby
+rvm:
+  - 2.1.8
+script:
+  - bundle exec rake style
+  - bundle exec rake spec

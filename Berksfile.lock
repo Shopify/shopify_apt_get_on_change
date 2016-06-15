@@ -1,0 +1,11 @@
+DEPENDENCIES
+  shopify_apt_get_on_change
+    path: .
+    metadata: true
+  shopify_apt_get_on_change_test
+    path: test/fixtures/cookbooks/shopify_apt_get_on_change_test
+
+GRAPH
+  shopify_apt_get_on_change (0.1.0)
+  shopify_apt_get_on_change_test (0.0.0)
+    shopify_apt_get_on_change (>= 0.0.0)
