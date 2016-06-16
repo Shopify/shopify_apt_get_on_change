@@ -1,7 +1,7 @@
 shopify_apt_get_on_change Cookbook
 ==================
 
-[![Travis CI](https://travis-ci.org/Shopify/shopify_apt_get_on_change.svg?branch=master)](https://travis-ci.org/Shopify/shopify_apt_get_on_change)
+[![Travis CI](https://api.travis-ci.org/Shopify/shopify_apt_get_on_change.svg?branch=master)](https://travis-ci.org/Shopify/shopify_apt_get_on_change)
 
 ```
 shopify_apt_get_on_change '/etc/shackle.d/version' do
