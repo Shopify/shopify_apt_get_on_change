@@ -4,3 +4,7 @@ up:
   - ruby:
       version: 2.1.8
   - bundler
+
+packages:
+  - git@github.com:Shopify/dev-shopify.git
+
