@@ -13,4 +13,12 @@ action :update do
     content new_resource.version
     notifies :run, 'execute[apt-get-update]', :immediately
   end
+
+  event = new_resource.datadog_event
+  ruby_block 'datadog' do
+    block do
+      push_to_datadog(event)
+    end
+    only_if { event && event[:name] && event[:text] }
+  end
 end

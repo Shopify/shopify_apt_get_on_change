@@ -1,4 +1,4 @@
-name: shopify_apt_get_on_change
+name: shopify-apt-get-on-change
 
 up:
   - ruby:
@@ -7,4 +7,3 @@ up:
 
 packages:
   - git@github.com:Shopify/dev-shopify.git
-
