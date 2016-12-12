@@ -43,8 +43,24 @@ describe 'shopify_apt_get_on_change_test::datadog' do
                         .converge(described_recipe)
   end
 
-  it 'should run the ruby block to send a datadog event' do
-    expect(chef_run).to run_ruby_block('datadog')
+  it 'should create version file with right content' do
+    expect(chef_run).to\
+      create_file('/etc/example.app/version').with_content('1.2')
+  end
+
+  it 'should do nothing if not notified' do
+    block = chef_run.ruby_block('datadog')
+    expect(block).to do_nothing
+  end
+
+  it 'should notify datadog ruby block that an update has occured' do
+    file = chef_run.file('/etc/example.app/version')
+    expect(file).to notify('ruby_block[datadog]').to(:run).immediately
+  end
+
+  it 'should send the event if notified' do
+    datadog_block = chef_run.ruby_block('datadog')
+    expect(datadog_block.only_if.first.evaluate).to be_truthy
   end
 end
 
@@ -54,8 +70,19 @@ describe 'shopify_apt_get_on_change_test::datadog_noname' do
                         .converge(described_recipe)
   end
 
-  it 'should not send an event without an event name to datadog' do
-    expect(chef_run).to_not run_ruby_block('datadog')
+  it 'should create version file with right content' do
+    expect(chef_run).to\
+      create_file('/etc/example.app/version').with_content('1.2')
+  end
+
+  it 'should notify datadog ruby block that an update has occured' do
+    file = chef_run.file('/etc/example.app/version')
+    expect(file).to notify('ruby_block[datadog]').to(:run).immediately
+  end
+
+  it 'should not send the event when notified if the name field is missing' do
+    datadog_block = chef_run.ruby_block('datadog')
+    expect(datadog_block.only_if.first.evaluate).to be_falsey
   end
 end
 
@@ -65,8 +92,19 @@ describe 'shopify_apt_get_on_change_test::datadog_notext' do
                         .converge(described_recipe)
   end
 
-  it 'should not send an event without event text to datadog' do
-    expect(chef_run).to_not run_ruby_block('datadog')
+  it 'should create version file with right content' do
+    expect(chef_run).to\
+      create_file('/etc/example.app/version').with_content('1.2')
+  end
+
+  it 'should notify datadog ruby block that an update has occured' do
+    file = chef_run.file('/etc/example.app/version')
+    expect(file).to notify('ruby_block[datadog]').to(:run).immediately
+  end
+
+  it 'should not send the event when notified if the text field is missing' do
+    datadog_block = chef_run.ruby_block('datadog')
+    expect(datadog_block.only_if.first.evaluate).to be_falsey
   end
 end
 

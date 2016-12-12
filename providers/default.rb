@@ -6,19 +6,19 @@ action :update do
     action :nothing
   end
 
+  event = new_resource.datadog_event
+  ruby_block 'datadog' do
+    block   { push_to_datadog(event) }
+    only_if { event && event[:name] && event[:text] }
+    action :nothing
+  end
+
   dir = new_resource.base_name.split('/')[0..-2].join('/')
   directory dir
 
   file new_resource.base_name do
     content new_resource.version
     notifies :run, 'execute[apt-get-update]', :immediately
-  end
-
-  event = new_resource.datadog_event
-  ruby_block 'datadog' do
-    block do
-      push_to_datadog(event)
-    end
-    only_if { event && event[:name] && event[:text] }
+    notifies :run, 'ruby_block[datadog]', :immediately
   end
 end
