@@ -6,10 +6,10 @@ action :update do
     action :nothing
   end
 
-  event = new_resource.datadog_event
-  ruby_block 'datadog' do
-    block   { push_to_datadog(event) }
-    only_if { event && event[:name] && event[:text] }
+  ruby_block 'on-update' do
+    # rubocop:disable AmbiguousOperator
+    block &new_resource.on_update
+    only_if { new_resource.on_update }
     action :nothing
   end
 
@@ -19,6 +19,6 @@ action :update do
   file new_resource.base_name do
     content new_resource.version
     notifies :run, 'execute[apt-get-update]', :immediately
-    notifies :run, 'ruby_block[datadog]', :immediately
+    notifies :run, 'ruby_block[on-update]', :immediately
   end
 end
