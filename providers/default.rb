@@ -9,6 +9,7 @@ action :update do
   ruby_block 'on-update' do
     # rubocop:disable AmbiguousOperator
     block &new_resource.on_update
+    # rubocop:enable AmbiguousOperator
     only_if { new_resource.on_update }
     action :nothing
   end
